@@ -17,6 +17,7 @@ model Question {
   maxVotes  Int?
   options   Option[]
   votes     Vote[]
+  createdBy String
 }
 
 model Option {

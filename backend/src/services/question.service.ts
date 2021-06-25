@@ -13,6 +13,7 @@ export class QuestionService {
   }
 
   public async createQuestion(
+    userId: string,
     payload: CreateQuestionPayload
   ): Promise<Question & { options: Option[] }> {
     let id = this.generateUniqueId();
@@ -38,6 +39,7 @@ export class QuestionService {
     const question = await this.prismaClient.question.create({
       data: {
         id,
+        createdBy: userId,
         question: payload.question,
         maxVotes: payload.maxVotes,
         expiresAt: new Date(expiryDate),
@@ -54,6 +56,7 @@ export class QuestionService {
         maxVotes: true,
         question: true,
         options: true,
+        createdBy: true,
       },
     });
 

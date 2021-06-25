@@ -9,16 +9,17 @@ export class UserIdMiddleware extends BaseMiddleware {
     res: express.Response,
     next: express.NextFunction
   ) {
-    if (
-      !req.headers.authorization ||
-      !req.headers.authorization.startsWith("user-")
-    ) {
+    const { authorization } = req.headers;
+
+    if (!authorization || !authorization.startsWith("user-")) {
       res.statusCode = 401;
       res.json({
         message: "Please provide a user id to continue using the API.",
       });
       return;
     }
+
+    req.user = authorization;
 
     return next();
   }
