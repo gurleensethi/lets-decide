@@ -4,7 +4,9 @@ import { container } from "./di";
 import { json, urlencoded } from "body-parser";
 
 function bootstrap() {
-  const server = new InversifyExpressServer(container);
+  const server = new InversifyExpressServer(container, null, {
+    rootPath: "/api",
+  });
 
   server.setConfig((app) => {
     app.use(json());
