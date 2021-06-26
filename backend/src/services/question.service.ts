@@ -1,4 +1,4 @@
-import { Option, PrismaClient, Question } from "@prisma/client";
+import { Option, PrismaClient, Question, Vote } from "@prisma/client";
 import cuid from "cuid";
 import { inject, injectable } from "inversify";
 import { HttpError } from "../errors/http.error";
@@ -75,5 +75,37 @@ export class QuestionService {
     });
 
     return question;
+  }
+
+  public async voteForQuestion(
+    userId: string,
+    questionId: string,
+    optionId: string
+  ): Promise<Vote> {
+    const question = await this.prismaClient.question.findUnique({
+      where: { id: questionId },
+    });
+
+    if (!question) {
+      throw new HttpError(404, `Question not found!`);
+    }
+
+    const option = await this.prismaClient.option.findFirst({
+      where: { id: optionId, questionId },
+    });
+
+    if (!option) {
+      throw new HttpError(404, "Invalid option for question");
+    }
+
+    // Delete existing votes for this question
+    await this.prismaClient.vote.deleteMany({
+      where: { questionId, userId },
+    });
+
+    // Create the new vote
+    return await this.prismaClient.vote.create({
+      data: { optionId, questionId, userId },
+    });
   }
 }

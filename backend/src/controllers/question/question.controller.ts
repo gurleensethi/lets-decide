@@ -4,6 +4,7 @@ import {
   controller,
   httpGet,
   httpPost,
+  httpPut,
   request,
   requestBody,
   requestParam,
@@ -34,5 +35,14 @@ export class QuestionController {
   @httpGet("/:id", TYPES.UserIdMiddleware)
   public async getQuestionId(@requestParam("id") id: string) {
     return this.questionService.getQuestionById(id);
+  }
+
+  @httpPut("/:questionId/vote/:optionId", TYPES.UserIdMiddleware)
+  public async voteForQuestion(
+    @request() req: Request,
+    @requestParam("questionId") questionId: string,
+    @requestParam("optionId") optionId: string
+  ) {
+    return this.questionService.voteForQuestion(req.user, questionId, optionId);
   }
 }

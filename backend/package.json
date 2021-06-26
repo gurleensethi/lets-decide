@@ -25,6 +25,7 @@
     "inversify": "^5.1.1",
     "inversify-express-utils": "^6.3.2",
     "joi": "^17.4.0",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "source-map-support": "^0.5.19"
   }
 }
