@@ -2,9 +2,11 @@ import { Request } from "express";
 import { inject } from "inversify";
 import {
   controller,
+  httpGet,
   httpPost,
   request,
   requestBody,
+  requestParam,
 } from "inversify-express-utils";
 import validationMiddleware from "../../middleware/validation.middleware";
 import { QuestionService } from "../../services/question.service";
@@ -27,5 +29,10 @@ export class QuestionController {
     @requestBody() body: CreateQuestionPayload
   ) {
     return this.questionService.createQuestion(req.user, body);
+  }
+
+  @httpGet("/:id", TYPES.UserIdMiddleware)
+  public async getQuestionId(@requestParam("id") id: string) {
+    return this.questionService.getQuestionById(id);
   }
 }

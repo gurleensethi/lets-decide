@@ -1,6 +1,7 @@
 import { Option, PrismaClient, Question } from "@prisma/client";
 import cuid from "cuid";
 import { inject, injectable } from "inversify";
+import { HttpError } from "../errors/http.error";
 import { CreateQuestionPayload, TYPES } from "../types";
 
 @injectable()
@@ -10,6 +11,19 @@ export class QuestionService {
   private generateUniqueId(): string {
     const id = cuid();
     return id.substring(id.length - 6);
+  }
+
+  public async getQuestionById(id: string) {
+    const question = this.prismaClient.question.findUnique({
+      where: { id },
+      include: { options: true, votes: true },
+    });
+
+    if (!question) {
+      throw new HttpError(404, "Question not found!");
+    }
+
+    return question;
   }
 
   public async createQuestion(
