@@ -84,17 +84,15 @@ export class QuestionService {
   ): Promise<Vote> {
     const question = await this.prismaClient.question.findUnique({
       where: { id: questionId },
+      select: { options: true },
     });
 
     if (!question) {
       throw new HttpError(404, `Question not found!`);
     }
 
-    const option = await this.prismaClient.option.findFirst({
-      where: { id: optionId, questionId },
-    });
-
-    if (!option) {
+    // Check if question has the option.
+    if (question.options.findIndex((option) => option.id === optionId) === -1) {
       throw new HttpError(404, "Invalid option for question");
     }
 
