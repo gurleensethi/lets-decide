@@ -6,4 +6,12 @@
   <router-view />
 </template>
 
+<script>
+export default {
+  created() {
+    this.$store.dispatch("resolveUserId");
+  },
+};
+</script>
+
 <style></style>
