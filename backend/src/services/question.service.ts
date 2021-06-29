@@ -14,7 +14,7 @@ export class QuestionService {
   }
 
   public async getQuestionById(id: string) {
-    const question = this.prismaClient.question.findUnique({
+    const question = await this.prismaClient.question.findUnique({
       where: { id },
       include: { options: true, votes: true },
     });
