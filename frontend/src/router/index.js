@@ -26,9 +26,10 @@ const routes = [
     component: CreateQuestion,
   },
   {
-    path: "/question/:id",
+    path: "/question/:questionId",
     name: "Question",
     component: Question,
+    props: true,
   },
   {
     path: "/:catchAll(.*)",

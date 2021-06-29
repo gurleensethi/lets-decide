@@ -1,8 +1,14 @@
 import httpClient from "../../../utils/http-client";
 
-const state = {};
+const state = {
+  question: null,
+};
 
-const mutations = {};
+const mutations = {
+  UPDATE_QUESTION: function (state, question) {
+    state.question = question;
+  },
+};
 
 const actions = {
   async createQuestion(context, payload) {
@@ -13,9 +19,20 @@ const actions = {
     });
     return data;
   },
+  async loadQuestion(context, questionId) {
+    const { data } = await httpClient.get(`/questions/${questionId}`, {
+      headers: {
+        Authorization: context.getters.userId,
+      },
+    });
+
+    context.commit("UPDATE_QUESTION", data);
+  },
 };
 
-const getters = {};
+const getters = {
+  question: (state) => state.question,
+};
 
 export default {
   state,
