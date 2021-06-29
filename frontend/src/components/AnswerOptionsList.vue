@@ -2,9 +2,12 @@
   <div>
     <div v-for="option in options" :key="option.id">
       <div
-        :style="{
-          backgroundColor: option.id === selectedOption ? 'black' : '',
-        }"
+        :class="[
+          'text-2xl shadow-xl p-4 mb-6 rounded-lg cursor-pointer hover:bg-purple-500 hover:text-white transition',
+          option.id === selectedOption
+            ? 'bg-purple-700 text-white'
+            : 'bg-white text-purple-500',
+        ]"
         @click="$emit('optionSelected', option.id)"
       >
         {{ option.option }}

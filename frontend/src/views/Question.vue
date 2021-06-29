@@ -1,14 +1,45 @@
 <template>
-  <div>Question</div>
   <div v-if="question">
-    <div>{{ question.question }}</div>
-    <div>Options:</div>
+    <div class="text-3xl font-bold mb-2">{{ question.question }}</div>
+    <div class="text-lg text-gray-400 mb-6">Select an option</div>
     <answer-options-list
       :options="question.options"
       :selectedOption="selectedOption"
       @optionSelected="optionSelected"
+      class="mb-8"
     />
-    <button>Submit</button>
+    <div
+      v-if="question.createdBy === userId"
+      class="
+        p-4
+        border-2 border-purple-500
+        rounded-lg
+        flex flex-col
+        justify-center
+        items-center
+      "
+    >
+      <div class="text-xl mb-4 font-semibold">
+        Share this question with your friends using the following code
+      </div>
+      <div class="text-2xl bg-gray-400 text-white p-2 rounded-lg inline-block">
+        {{ question.id }}
+      </div>
+      <div class="text-lg opacity-50 my-4">OR</div>
+      <div
+        class="
+          text-xl
+          underline
+          p-2
+          rounded-lg
+          inline-block
+          text-gray-500
+          cursor-pointer
+        "
+      >
+        Copy Link 🔗
+      </div>
+    </div>
   </div>
   <div v-if="errorMessage">{{ errorMessage }}</div>
 </template>

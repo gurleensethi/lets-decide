@@ -1,14 +1,46 @@
 <template>
-  <div>Create Question</div>
-  <input placeholder="Enter Question" v-model="question" />
-  <div v-if="errors.question">{{ errors.question }}</div>
+  <div class="text-2xl font-bold mb-6">Create New Question</div>
+  <input
+    placeholder="Enter Question"
+    v-model="question"
+    class="
+      focus:ring-2 focus:ring-purple-300 focus:ring-offset-2
+      border-2 border-purple-300
+      p-2
+      text-xl
+      rounded-lg
+      outline-none
+      w-full
+    "
+  />
+  <div class="text-red-500 text-lg my-2 mb-6">
+    {{ errors.question }}
+  </div>
+  <div class="text-xl mb-2">Add Options</div>
   <options-list
     :options="options"
     @addOption="addOption"
     @removeOption="removeOption"
   />
-  <div v-if="errors.option">{{ errors.option }}</div>
-  <button @click="createQuestion">Create</button>
+  <div class="text-red-500 text-lg my-2 mb-6">
+    {{ errors.option }}
+  </div>
+  <button
+    class="
+      bg-purple-500
+      text-white
+      font-bold
+      uppercase
+      hover:bg-purple-700
+      px-4
+      py-2
+      rounded-md
+      transition
+    "
+    @click="createQuestion"
+  >
+    Create
+  </button>
 </template>
 
 <script>
