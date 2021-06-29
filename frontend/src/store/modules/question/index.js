@@ -20,13 +20,20 @@ const actions = {
     return data;
   },
   async loadQuestion(context, questionId) {
-    const { data } = await httpClient.get(`/questions/${questionId}`, {
-      headers: {
-        Authorization: context.getters.userId,
-      },
-    });
+    const res = await httpClient
+      .get(`/questions/${questionId}`, {
+        headers: {
+          Authorization: context.getters.userId,
+        },
+      })
+      .catch((err) => err);
 
-    context.commit("UPDATE_QUESTION", data);
+    if (!(res instanceof Error)) {
+      context.commit("UPDATE_QUESTION", res.data);
+      return { isError: false, data: res.data };
+    } else {
+      return { isError: true, message: res.response.data.message };
+    }
   },
 };
 

@@ -10,6 +10,7 @@
     />
     <button>Submit</button>
   </div>
+  <div v-if="errorMessage">{{ errorMessage }}</div>
 </template>
 
 <script>
@@ -33,10 +34,15 @@ export default {
   data() {
     return {
       selectedOption: null,
+      errorMessage: null,
     };
   },
   created() {
-    this.$store.dispatch("loadQuestion", this.$props.questionId);
+    this.$store.dispatch("loadQuestion", this.$props.questionId).then((res) => {
+      if (res.isError) {
+        this.errorMessage = res.message;
+      }
+    });
   },
 };
 </script>
