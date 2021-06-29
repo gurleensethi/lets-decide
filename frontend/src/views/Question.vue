@@ -24,11 +24,12 @@ export default {
     AnswerOptionsList,
   },
   computed: {
-    ...mapGetters(["question"]),
+    ...mapGetters(["question", "userId"]),
   },
   methods: {
     optionSelected(id) {
       this.selectedOption = id;
+      this.$store.dispatch("voteForQuestion", id);
     },
   },
   data() {
@@ -41,6 +42,14 @@ export default {
     this.$store.dispatch("loadQuestion", this.$props.questionId).then((res) => {
       if (res.isError) {
         this.errorMessage = res.message;
+      } else {
+        const voteIndex = this.question.votes.findIndex(
+          (vote) => vote.userId === this.userId
+        );
+
+        if (voteIndex !== -1) {
+          this.selectedOption = this.question.votes[voteIndex].optionId;
+        }
       }
     });
   },

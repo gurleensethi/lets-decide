@@ -35,6 +35,19 @@ const actions = {
       return { isError: true, message: res.response.data.message };
     }
   },
+  async voteForQuestion(context, voteId) {
+    const res = await httpClient.put(
+      `/questions/${context.state.question.id}/vote/${voteId}`,
+      null,
+      {
+        headers: {
+          Authorization: context.getters.userId,
+        },
+      }
+    );
+
+    return res;
+  },
 };
 
 const getters = {
